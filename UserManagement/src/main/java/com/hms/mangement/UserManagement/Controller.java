@@ -1,11 +1,8 @@
 package com.hms.mangement.UserManagement;
-
 import com.google.gson.Gson;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -13,7 +10,6 @@ public class Controller {
 
     private ApplicationContext context;
     private UserDAO userJDBCTemplate;
-
 
     public Controller() {
         this.context = new AnnotationConfigApplicationContext(Configurations.class);
@@ -23,7 +19,6 @@ public class Controller {
 
     @GetMapping(value = "/Users")
     public String viewUsers() {
-        System.out.println("hello get");
 
         List<User> users = userJDBCTemplate.viewAllUsers();
         if (users != null) {

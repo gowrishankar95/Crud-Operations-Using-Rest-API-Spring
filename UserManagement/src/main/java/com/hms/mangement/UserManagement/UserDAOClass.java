@@ -7,23 +7,14 @@ import java.util.List;
 public class UserDAOClass implements UserDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
-   // private DataSource dataSource;
 
-    /*
-
-    @Override
-    public void setDataSource(DataSource ds) {
-        this.dataSource = ds;
-
-    }
-*/
     public JdbcTemplate getJdbcTemplate() {
+
         return jdbcTemplate;
     }
 
-
-
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -33,8 +24,6 @@ public class UserDAOClass implements UserDAO {
         jdbcTemplate.update(sql,user.getUsername(),user.getPassword());
 
     }
-
-
 
     @Override
     public String deleteUser(int id) {

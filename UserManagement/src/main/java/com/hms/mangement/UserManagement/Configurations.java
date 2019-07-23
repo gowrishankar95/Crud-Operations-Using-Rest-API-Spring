@@ -6,8 +6,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 
-
-
 @Configuration
 @PropertySource("classpath:application.properties")
 public class Configurations {
@@ -26,9 +24,6 @@ public class Configurations {
 
     @Bean
     public DataSource datasource() throws PropertyVetoException {
-        /*ApplicationContext context = new ClassPathXmlApplicationContext("been.xml");
-        DataSource dataSource = (DataSource) context.getBean("dataSource");
-        return dataSource;*/
         System.out.println("hello"+dbPassword);
         return DataSourceBuilder
                 .create()
@@ -41,12 +36,14 @@ public class Configurations {
 
     @Bean
     public JdbcTemplate jdbcTemplate(){
+
         try {
             return new JdbcTemplate(datasource());
         } catch (PropertyVetoException e) {
             e.printStackTrace();
             return null;
         }
+
     }
     @Bean
     public UserDAOClass userDAO(){
