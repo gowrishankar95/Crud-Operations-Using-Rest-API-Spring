@@ -1,14 +1,11 @@
 package com.hms.mangement.UserManagement;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-
-import javax.sql.DataSource;
 import java.util.List;
 
-public class UserJDBCTemplate implements UserDAO {
-
+public class UserDAOClass implements UserDAO {
+    @Autowired
     private JdbcTemplate jdbcTemplate;
    // private DataSource dataSource;
 
@@ -43,8 +40,8 @@ public class UserJDBCTemplate implements UserDAO {
     public String deleteUser(int id) {
         User user = isIdExist(id);
         if (user == null) {
-            System.out.println("id not found");
-            return "id not found";
+            System.out.println("User with id "+id+" not found");
+            return "User with id "+id+" not found";
         } else {
             String sql = "DELETE  FROM users  WHERE UserId=?";
             jdbcTemplate.update(sql,id);
@@ -52,8 +49,6 @@ public class UserJDBCTemplate implements UserDAO {
             return "user id "+ id +" deleted";
 
         }
-
-
     }
 
     @Override
@@ -78,16 +73,16 @@ public class UserJDBCTemplate implements UserDAO {
     public String updatePassword(int id, String oldPassword, String newPassword) {
         User user = isIdExist(id);
         if (user == null) {
-            System.out.println("id not found");
-            return "id not found";
+            System.out.println("User with id "+id+" not found");
+            return "User with id "+id+" not found";
         }
         else if (!user.getPassword().equals(oldPassword)) {
             return "invalid password";
         } else {
             String sql = "UPDATE users SET passowrd=? WHERE UserId=?";
             jdbcTemplate.update(sql,newPassword,id);
-            System.out.println("record updated");
-            return "update success";
+            System.out.println("User Id "+id+" password succesfully updated");
+            return "User Id "+id+" password succesfully updated";
 
         }
     }

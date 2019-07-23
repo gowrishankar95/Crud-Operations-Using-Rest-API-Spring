@@ -3,9 +3,9 @@ package com.hms.mangement.UserManagement;
 import javax.sql.DataSource;
 import java.util.List;
 
-public interface UserDAO {
+public interface UserDAO  {
 
-  
+
     //public void setDataSource(DataSource ds);
 
     /**

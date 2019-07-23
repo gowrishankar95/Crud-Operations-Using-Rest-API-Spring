@@ -2,6 +2,7 @@ package com.hms.mangement.UserManagement;
 
 import com.google.gson.Gson;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,13 +11,14 @@ import java.util.List;
 @RestController
 public class Controller {
 
-    private ApplicationContext context ;
-    private UserJDBCTemplate userJDBCTemplate ;
-    
+    private ApplicationContext context;
+    private UserDAO userJDBCTemplate;
+
 
     public Controller() {
-        this.context = new ClassPathXmlApplicationContext("been.xml");
-        this.userJDBCTemplate = (UserJDBCTemplate) context.getBean("userJDBCTemplate");
+        this.context = new AnnotationConfigApplicationContext(Configuration.class);
+        this.userJDBCTemplate = context.getBean(UserDAO.class);
+
     }
 
     @GetMapping(value = "/Users")
@@ -48,8 +50,7 @@ public class Controller {
         } else if (user.getPassword().length() > 20) {
             System.out.println("password cannot exceed 20 characters");
             return "password cannot exceed 20 characters";
-        }
-        else {
+        } else {
             userJDBCTemplate.create(user);
             return "created new user";
         }
@@ -61,7 +62,7 @@ public class Controller {
                                  @RequestParam(value = "opassword", defaultValue = " ") String oldPassword,
                                  @RequestParam(value = "npassword", defaultValue = " ") String newPassword) {
 
-        return  userJDBCTemplate.updatePassword(id,oldPassword,newPassword);
+        return userJDBCTemplate.updatePassword(id, oldPassword, newPassword);
 
     }
 
@@ -70,5 +71,5 @@ public class Controller {
 
         return userJDBCTemplate.deleteUser(id);
     }
-
 }
+
