@@ -16,7 +16,7 @@ public class Controller {
 
 
     public Controller() {
-        this.context = new AnnotationConfigApplicationContext(Configuration.class);
+        this.context = new AnnotationConfigApplicationContext(Configurations.class);
         this.userJDBCTemplate = context.getBean(UserDAO.class);
 
     }

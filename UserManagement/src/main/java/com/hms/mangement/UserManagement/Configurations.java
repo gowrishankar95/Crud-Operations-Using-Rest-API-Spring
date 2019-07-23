@@ -1,21 +1,24 @@
 package com.hms.mangement.UserManagement;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 
-@org.springframework.context.annotation.Configuration
 
-public class Configuration {
+
+@Configuration
+@PropertySource("classpath:application.properties")
+public class Configurations {
+
     @Value("${spring.datasource.driver-class-name}")
-    private String jdbcDriverName;
-    @Value("${url}")
-    private String jdbcURl;
+    private  String jdbcDriverName;
 
     @Value("${spring.datasource.url}")
+    private String jdbcURl;
+
+    @Value("${spring.datasource.username}")
     private String dbUsername;
 
     @Value("${spring.datasource.password}")
@@ -26,13 +29,13 @@ public class Configuration {
         /*ApplicationContext context = new ClassPathXmlApplicationContext("been.xml");
         DataSource dataSource = (DataSource) context.getBean("dataSource");
         return dataSource;*/
-        System.out.println("hello"+jdbcURl);
+        System.out.println("hello"+dbPassword);
         return DataSourceBuilder
                 .create()
-                .username("root")
-                .password("beyondm")
-                .url("jdbc:mysql://localhost:3306/userDatabase")
-                .driverClassName("com.mysql.jdbc.Driver")
+                .username(dbUsername)
+                .password(dbPassword)
+                .url(jdbcURl)
+                .driverClassName(jdbcDriverName)
                 .build();
     }
 
