@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface UserRepository {
 
-    public void create(User user);
+    public User create(User user);
 
     public String updatePassword(int UserId, String oldPassword, String newPassword);
 

@@ -4,7 +4,6 @@ import com.hms.management.User;
 import com.hms.management.UserMapper;
 import com.hms.management.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -16,9 +15,10 @@ public class UserRepositoryImpl implements UserRepository {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public void create(User user) {
+    public User create(User user) {
         String sql = "INSERT INTO users (userName,passowrd) VALUES (?, ?)";
         jdbcTemplate.update(sql,user.getUsername(),user.getPassword());
+        return user;
 
     }
 
@@ -26,7 +26,7 @@ public class UserRepositoryImpl implements UserRepository {
     public String deleteUser(int id) {
         User user = isIdExist(id);
         if (user == null) {
-            System.out.println("User with id "+id+" not found");
+            System.out.println("User with id " + id + " not found");
             return "User with id "+id+" not found";
         } else {
             String sql = "DELETE  FROM users  WHERE UserId=?";
