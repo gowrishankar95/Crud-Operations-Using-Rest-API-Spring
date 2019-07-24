@@ -24,7 +24,7 @@ public class Configurations {
 
     @Bean
     public DataSource datasource() throws PropertyVetoException {
-        System.out.println("hello"+dbPassword);
+
         return DataSourceBuilder
                 .create()
                 .username(dbUsername)

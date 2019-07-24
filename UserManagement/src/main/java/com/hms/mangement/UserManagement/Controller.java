@@ -9,18 +9,18 @@ import java.util.List;
 public class Controller {
 
     private ApplicationContext context;
-    private UserDAO userJDBCTemplate;
+    private UserDAO userDAO;
 
     public Controller() {
         this.context = new AnnotationConfigApplicationContext(Configurations.class);
-        this.userJDBCTemplate = context.getBean(UserDAO.class);
+        this.userDAO = context.getBean(UserDAO.class);
 
     }
 
     @GetMapping(value = "/Users")
     public String viewUsers() {
 
-        List<User> users = userJDBCTemplate.viewAllUsers();
+        List<User> users = userDAO.viewAllUsers();
         if (users != null) {
             return new Gson().toJson(users);
         }
@@ -46,7 +46,7 @@ public class Controller {
             System.out.println("password cannot exceed 20 characters");
             return "password cannot exceed 20 characters";
         } else {
-            userJDBCTemplate.create(user);
+            userDAO.create(user);
             return "created new user";
         }
 
@@ -57,14 +57,14 @@ public class Controller {
                                  @RequestParam(value = "opassword", defaultValue = " ") String oldPassword,
                                  @RequestParam(value = "npassword", defaultValue = " ") String newPassword) {
 
-        return userJDBCTemplate.updatePassword(id, oldPassword, newPassword);
+        return userDAO.updatePassword(id, oldPassword, newPassword);
 
     }
 
     @DeleteMapping("/Users")
     public String deleteUser(@RequestParam(value = "id", defaultValue = " ") int id) {
 
-        return userJDBCTemplate.deleteUser(id);
+        return userDAO.deleteUser(id);
     }
 }
 
