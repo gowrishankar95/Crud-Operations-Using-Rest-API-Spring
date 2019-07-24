@@ -13,13 +13,7 @@ import java.util.List;
 @Repository
 public class UserRepositoryImpl implements UserRepository {
     @Autowired
-    @Qualifier("jdbcTemplateBean")
     private JdbcTemplate jdbcTemplate;
-
-
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     @Override
     public void create(User user) {

@@ -10,7 +10,6 @@ import java.util.List;
 public class UserManagementRestController {
 
     @Autowired()
-    @Qualifier("userRepositoryImplBean")
     private UserRepository userRepository;
 
     public void setUserRepository(UserRepository userRepository) {
