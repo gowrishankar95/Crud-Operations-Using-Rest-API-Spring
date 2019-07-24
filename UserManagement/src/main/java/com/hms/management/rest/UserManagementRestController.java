@@ -1,34 +1,30 @@
-package com.hms.mangement.UserManagement;
-import com.google.gson.Gson;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+package com.hms.management.rest;
+import com.hms.management.User;
+import com.hms.management.dao.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class Controller {
+public class UserManagementRestController {
 
-    private ApplicationContext context;
-    private UserDAO userDAO;
+    @Autowired()
+    @Qualifier("userRepositoryImplBean")
+    private UserRepository userRepository;
 
-    public Controller() {
-        this.context = new AnnotationConfigApplicationContext(Configurations.class);
-        this.userDAO = context.getBean(UserDAO.class);
-
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @GetMapping(value = "/Users")
-    public String viewUsers() {
+    public List<User> viewUsers() {
+        return userRepository.viewAllUsers();
 
-        List<User> users = userDAO.viewAllUsers();
-        if (users != null) {
-            return new Gson().toJson(users);
-        }
-        return "error";
     }
 
     @PostMapping("/Users")
-    public String createUsers(@RequestParam(value = "userName", defaultValue = " ") String userName,
+    public Object createUsers(@RequestParam(value = "userName", defaultValue = " ") String userName,
                               @RequestParam(value = "password", defaultValue = " ") String password) {
 
         User user = new User(userName, password);
@@ -46,25 +42,25 @@ public class Controller {
             System.out.println("password cannot exceed 20 characters");
             return "password cannot exceed 20 characters";
         } else {
-            userDAO.create(user);
+            userRepository.create(user);
             return "created new user";
         }
 
     }
 
     @PutMapping("/Users")
-    public String updatePassword(@RequestParam(value = "id", defaultValue = " ") int id,
+    public Object updatePassword(@RequestParam(value = "id", defaultValue = " ") int id,
                                  @RequestParam(value = "opassword", defaultValue = " ") String oldPassword,
                                  @RequestParam(value = "npassword", defaultValue = " ") String newPassword) {
 
-        return userDAO.updatePassword(id, oldPassword, newPassword);
+        return userRepository.updatePassword(id, oldPassword, newPassword);
 
     }
 
     @DeleteMapping("/Users")
     public String deleteUser(@RequestParam(value = "id", defaultValue = " ") int id) {
 
-        return userDAO.deleteUser(id);
+        return userRepository.deleteUser(id);
     }
 }
 

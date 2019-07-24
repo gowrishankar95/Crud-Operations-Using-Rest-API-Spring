@@ -1,20 +1,23 @@
-package com.hms.mangement.UserManagement;
+package com.hms.management.dao.impl;
 
+import com.hms.management.User;
+import com.hms.management.UserMapper;
+import com.hms.management.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
-public class UserDAOClass implements UserDAO {
+@Repository
+public class UserRepositoryImpl implements UserRepository {
     @Autowired
+    @Qualifier("jdbcTemplateBean")
     private JdbcTemplate jdbcTemplate;
 
-    public JdbcTemplate getJdbcTemplate() {
-
-        return jdbcTemplate;
-    }
 
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-
         this.jdbcTemplate = jdbcTemplate;
     }
 

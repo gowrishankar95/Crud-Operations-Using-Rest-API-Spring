@@ -1,4 +1,4 @@
-package com.hms.mangement.UserManagement;
+package com.hms.management;
 
 import org.springframework.jdbc.core.RowMapper;
 

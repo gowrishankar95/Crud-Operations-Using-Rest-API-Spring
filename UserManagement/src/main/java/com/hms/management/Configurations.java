@@ -1,4 +1,5 @@
-package com.hms.mangement.UserManagement;
+package com.hms.management;
+import com.hms.management.dao.impl.UserRepositoryImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.*;
@@ -7,7 +8,7 @@ import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 
 @Configuration
-@PropertySource("classpath:application.properties")
+//@PropertySource("classpath")
 public class Configurations {
 
     @Value("${spring.datasource.driver-class-name}")
@@ -24,7 +25,7 @@ public class Configurations {
 
     @Bean
     public DataSource datasource() throws PropertyVetoException {
-
+        System.out.println("inside data source bean");
         return DataSourceBuilder
                 .create()
                 .username(dbUsername)
@@ -32,10 +33,17 @@ public class Configurations {
                 .url(jdbcURl)
                 .driverClassName(jdbcDriverName)
                 .build();
+
+
+        /*ApplicationContext context = new ClassPathXmlApplicationContext("been.xml");
+        DataSource dataSource= (DataSource) context.getBean("dataSource");
+        return dataSource;
+        */
     }
 
-    @Bean
+    @Bean("jdbcTemplateBean")
     public JdbcTemplate jdbcTemplate(){
+        System.out.println("inside jdbcTemplate  bean");
 
         try {
             return new JdbcTemplate(datasource());
@@ -45,13 +53,12 @@ public class Configurations {
         }
 
     }
-    @Bean
-    public UserDAOClass userDAO(){
-        UserDAOClass userDAOClass = new UserDAOClass();
-        userDAOClass.setJdbcTemplate(jdbcTemplate());
-        return userDAOClass;
+    @Bean(name = "userRepositoryImplBean")
+    public UserRepositoryImpl userDAO() {
+        System.out.println("inside user Repository  bean");
+        UserRepositoryImpl userRepository = new UserRepositoryImpl();
+        return userRepository;
     }
-
 
 
 }

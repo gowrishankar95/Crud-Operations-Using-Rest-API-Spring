@@ -1,9 +1,10 @@
-package com.hms.mangement.UserManagement;
+package com.hms.management.dao;
 
-import javax.sql.DataSource;
+import com.hms.management.User;
+
 import java.util.List;
 
-public interface UserDAO  {
+public interface UserRepository {
 
     public void create(User user);
 
