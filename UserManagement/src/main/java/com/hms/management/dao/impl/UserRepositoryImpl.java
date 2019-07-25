@@ -61,6 +61,11 @@ public class UserRepositoryImpl implements UserRepository {
         return users;
     }
 
+    @Override
+    public User getUser() {
+        return null;
+    }
+
     public User isIdExist(int userId) {
         String sql = "SELECT * "
                 + "FROM users" + " where UserId = " + "\'" + userId + "\'";

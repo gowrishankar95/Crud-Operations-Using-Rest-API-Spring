@@ -5,12 +5,17 @@ import com.hms.management.User;
 import java.util.List;
 
 public interface UserRepository {
+    //todo : Add java doc
 
-    public User create(User user);
+    User create(User user);
 
-    public String updatePassword(int UserId, String oldPassword, String newPassword);
+    String updatePassword(int UserId, String oldPassword, String newPassword);
 
-    public String deleteUser(int id);
+    String deleteUser(int id);
 
-    public List<User> viewAllUsers();
+    List<User> viewAllUsers();
+
+    User getUser();
+
+
 }

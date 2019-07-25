@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/userDatabase
+    username: root
+    password: beyondm
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5Dialect
