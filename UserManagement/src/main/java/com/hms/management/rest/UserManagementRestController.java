@@ -1,14 +1,17 @@
 package com.hms.management.rest;
 import com.hms.management.User;
 import com.hms.management.dao.UserRepository;
-import com.hms.management.rest.Exceptions.InvalidNameException;
-import com.hms.management.rest.Exceptions.InvalidPasswordException;
+import com.hms.management.UserManagerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 public class UserManagementRestController {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired()
     private UserRepository userRepository;
@@ -19,22 +22,33 @@ public class UserManagementRestController {
 
     @GetMapping(value = "/users")
     public List<User> getUserList() {
+        logger.info("recieved a get request from client to get user list");
         return userRepository.viewAllUsers();
+
+    }
+
+    @GetMapping(value = "/user")
+    public User getUser(@RequestParam(value = "userId", defaultValue = " ") int userId) {
+        logger.info("recieved a get request from user to return a user with userID "+userId);
+        return userRepository.getUser(userId);
 
     }
 
     @PostMapping("/users")
     public Object createUser(@RequestParam(value = "userName", defaultValue = " ") String userName,
-                                     @RequestParam(value = "password", defaultValue = " ") String password) {
-
+                                     @RequestParam(value = "password", defaultValue = " ") String password) throws UserManagerException {
+        logger.info("recieved a  request create user to return a user ");
         User user = new User(userName, password);
 
         if (user.getUsername().trim().isEmpty() || user.getUsername().trim().length() > 20) {
-            throw new InvalidNameException();
+            logger.info("invalid username and going to throw an exception");
+            throw new UserManagerException();
         } else if (user.getPassword().trim().isEmpty() || user.getPassword().length() > 20) {
-            throw new InvalidPasswordException();
+            logger.info("invalid password and going to throw an exception");
+            throw new UserManagerException();
         } else {
             return userRepository.create(user);
+
         }
 
     }
@@ -43,6 +57,7 @@ public class UserManagementRestController {
     public Object updatePassword(@RequestParam(value = "id", defaultValue = " ") int id,
                                  @RequestParam(value = "opassword", defaultValue = " ") String oldPassword,
                                  @RequestParam(value = "npassword", defaultValue = " ") String newPassword) {
+        logger.info("request to change password from userId "+id);
 
         return userRepository.updatePassword(id, oldPassword, newPassword);
 
@@ -50,8 +65,9 @@ public class UserManagementRestController {
 
     @DeleteMapping("/users")
     public String deleteUser(@RequestParam(value = "id", defaultValue = " ") int id) {
-
+        logger.info("request to change password from userId "+id);
         return userRepository.deleteUser(id);
+
     }
 }
 

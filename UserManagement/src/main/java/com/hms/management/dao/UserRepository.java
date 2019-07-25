@@ -11,11 +11,11 @@ public interface UserRepository {
 
     String updatePassword(int UserId, String oldPassword, String newPassword);
 
-    String deleteUser(int id);
+    User deleteUser(int id);
 
     List<User> viewAllUsers();
 
-    User getUser();
+    User getUser(int userId);
 
 
 }

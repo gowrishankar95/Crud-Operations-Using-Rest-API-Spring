@@ -3,6 +3,8 @@ package com.hms.management.dao.impl;
 import com.hms.management.User;
 import com.hms.management.UserMapper;
 import com.hms.management.dao.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -17,6 +19,8 @@ import java.util.List;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
+
+    Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -34,21 +38,23 @@ public class UserRepositoryImpl implements UserRepository {
             }
         }, keyHolder);
         user.setUserId( Integer.parseInt(keyHolder.getKey()+""));
+        logger.info("successfully created user");
         return user;
 
     }
 
     @Override
-    public String deleteUser(int id) {
+    public User deleteUser(int id) {
         User user = isIdExist(id);
         if (user == null) {
-            System.out.println("User with id " + id + " not found");
-            return "User with id "+id+" not found";
+            logger.warn("User with id " + id + " not found");
+            return null;
         } else {
             String sql = "DELETE  FROM users  WHERE UserId=?";
             jdbcTemplate.update(sql,id);
             System.out.println("user id "+ id +" deleted");
-            return "user id "+ id +" deleted";
+            logger.info("user succesfully deleted");
+            return user;
 
         }
     }
@@ -62,8 +68,19 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User getUser() {
-        return null;
+    public User getUser(int userId) {
+        String sql = "SELECT * "
+                + "FROM users" + " where UserId = " + "\'" + userId + "\'";
+        List<User> user = jdbcTemplate.query(sql, new UserMapper());
+        if(user == null){
+            logger.warn("user with user id"+userId+"does not exist");
+            return null;
+        }
+        else {
+            logger.warn("returning user");
+            return user.get(0);
+        }
+
     }
 
     public User isIdExist(int userId) {
@@ -80,7 +97,7 @@ public class UserRepositoryImpl implements UserRepository {
     public String updatePassword(int id, String oldPassword, String newPassword) {
         User user = isIdExist(id);
         if (user == null) {
-            System.out.println("User with id "+id+" not found");
+            logger.warn("User with id "+id+" not found");
             return "User with id "+id+" not found";
         }
         else if (!user.getPassword().equals(oldPassword)) {
@@ -88,7 +105,7 @@ public class UserRepositoryImpl implements UserRepository {
         } else {
             String sql = "UPDATE users SET passowrd=? WHERE UserId=?";
             jdbcTemplate.update(sql,newPassword,id);
-            System.out.println("User Id "+id+" password succesfully updated");
+            logger.info("User Id "+id+" password succesfully updated");
             return "User Id "+id+" password succesfully updated";
 
         }
