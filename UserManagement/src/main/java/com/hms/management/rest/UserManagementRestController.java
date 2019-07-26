@@ -1,7 +1,8 @@
 package com.hms.management.rest;
+import com.hms.management.Error;
+import com.hms.management.ApiException;
 import com.hms.management.User;
 import com.hms.management.dao.UserRepository;
-import com.hms.management.UserManagerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,16 +37,18 @@ public class UserManagementRestController {
 
     @PostMapping("/users")
     public User createUser(@RequestParam(value = "userName", defaultValue = " ") String userName,
-                                     @RequestParam(value = "password", defaultValue = " ") String password) throws UserManagerException {
+                                     @RequestParam(value = "password", defaultValue = " ")
+                                             String password) throws ApiException {
+
         logger.info("recieved a  request create user to return a user ");
         User user = new User(userName, password);
 
         if (user.getUsername().trim().isEmpty() || user.getUsername().trim().length() > 20) {
-            logger.info("invalid username and going to throw an exception");
-            throw new UserManagerException();
+            logger.info(Error.INVALID_USERNAME.getDescription());
+            throw new ApiException("invalid user name");
         } else if (user.getPassword().trim().isEmpty() || user.getPassword().length() > 20) {
             logger.info("invalid password and going to throw an exception");
-            throw new UserManagerException();
+            throw new ApiException(Error.INVALID_PASSWORD.getDescription());
         } else {
             return userRepository.create(user);
 

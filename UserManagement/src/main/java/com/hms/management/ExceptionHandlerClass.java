@@ -1,6 +1,5 @@
-package com.hms.management.rest;
+package com.hms.management;
 
-import com.hms.management.UserManagerException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,15 +9,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice
-public class UserManagementRestControllerExceptionHandler {
+public class ExceptionHandlerClass {
+
 
     @ResponseBody
-    @ExceptionHandler(value = UserManagerException.class)
-    public Map<String, String> invalidUserNameException() {
+    @ExceptionHandler(value = Exception.class)
+    public Map<String, String> exception(Exception e) {
         Map<String, String> map = new HashMap<String, String>();
         map.put("status", HttpStatus.NOT_FOUND.toString());
-        map.put("error", "invalid user name or password");
-
+        map.put("error", e.getMessage());
         return map;
 
     }
