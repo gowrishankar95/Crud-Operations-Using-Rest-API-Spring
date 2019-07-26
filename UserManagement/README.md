@@ -1,32 +1,29 @@
-#User Maangement Rest API
+# User Maangement Rest API
 
 
-##Requirements
+## Requirements
 1. Open JDK 1.8.0
 2. MySQL 8.0.13
 3. Maven 3.6.1
 
-##Steps to Setup
+## Steps to Setup
 
-####1.Clone the application
+#### 1.Clone the application
 
 https://github.com/gowrishankar95/Crud-Operations-Using-Rest-API-Spring.git
 
-####2. Create Mysql database
+#### 2. Create Mysql database
 
 
 create database userDatabase 
 -- --
+create a table users with following attributes
 1. UserId    int(11)   PRI  auto_increment 
- userName | varchar(20) | YES  |     | NULL    |                |
--- 
-| passowrd | varchar(20) | YES  |     | NULL    |                |
--- 
-+----------+-------------+------+-----+---------+----------------+
--- 
+2.  userName | varchar(20)   
+3. passowrd varchar(20) 
 
 
-####3. Change mysql username and password as per your installation**
+#### 3. Change mysql username and password as per your installation**
 
     open src/main/resources/application.yml
 
@@ -34,7 +31,7 @@ create database userDatabase
 
 
 
-####4. Build and run the app using maven
+#### 4. Build and run the app using maven
 
     mvn package
     java -jar target/UserManagement-0.0.1-SNAPSHOT.jar
