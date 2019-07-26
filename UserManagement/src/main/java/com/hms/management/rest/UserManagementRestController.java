@@ -35,7 +35,7 @@ public class UserManagementRestController {
     }
 
     @PostMapping("/users")
-    public Object createUser(@RequestParam(value = "userName", defaultValue = " ") String userName,
+    public User createUser(@RequestParam(value = "userName", defaultValue = " ") String userName,
                                      @RequestParam(value = "password", defaultValue = " ") String password) throws UserManagerException {
         logger.info("recieved a  request create user to return a user ");
         User user = new User(userName, password);
@@ -54,17 +54,17 @@ public class UserManagementRestController {
     }
 
     @PutMapping("/users")
-    public Object updatePassword(@RequestParam(value = "id", defaultValue = " ") int id,
-                                 @RequestParam(value = "opassword", defaultValue = " ") String oldPassword,
-                                 @RequestParam(value = "npassword", defaultValue = " ") String newPassword) {
-        logger.info("request to change password from userId "+id);
+    public String updatePassword(@RequestParam(value = "userId", defaultValue = " ") int id,
+                                 @RequestParam(value = "oldPassword", defaultValue = " ") String oldPassword,
+                                 @RequestParam(value = "newPassword", defaultValue = " ") String newPassword) {
+        logger.info("request to change password of userId "+id);
 
         return userRepository.updatePassword(id, oldPassword, newPassword);
 
     }
 
     @DeleteMapping("/users")
-    public String deleteUser(@RequestParam(value = "id", defaultValue = " ") int id) {
+    public User deleteUser(@RequestParam(value = "userId", defaultValue = " ") int id) {
         logger.info("request to change password from userId "+id);
         return userRepository.deleteUser(id);
 
