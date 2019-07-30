@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice
-public class ExceptionHandlerClass {
+public class UserManagementExceptionHandler {
     @ResponseBody
     @ExceptionHandler(value = Exception.class)
     public Map<String, String> exception(Exception e) {

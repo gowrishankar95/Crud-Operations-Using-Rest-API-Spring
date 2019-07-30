@@ -1,10 +1,5 @@
 package com.hms.management;
 
-import org.springframework.http.HttpStatus;
-
-import java.util.HashMap;
-import java.util.Map;
-
 public class ApiException extends Exception {
     private String errorMessage;
 

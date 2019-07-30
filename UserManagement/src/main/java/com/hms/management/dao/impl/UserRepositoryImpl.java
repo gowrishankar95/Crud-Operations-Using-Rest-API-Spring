@@ -21,6 +21,7 @@ import java.util.List;
 public class UserRepositoryImpl implements UserRepository {
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -47,7 +48,7 @@ public class UserRepositoryImpl implements UserRepository {
     public User deleteUser(int id) {
         User user = isIdExist(id);
         if (user == null) {
-            logger.warn("User with id " + id + " not found");
+            logger.warn("User with id {} not found", id );
             return null;
         } else {
             String sql = "DELETE  FROM users  WHERE UserId=?";
@@ -73,7 +74,7 @@ public class UserRepositoryImpl implements UserRepository {
                 + "FROM users" + " where UserId = " + "\'" + userId + "\'";
         List<User> user = jdbcTemplate.query(sql, new UserMapper());
         if(user == null){
-            logger.warn("user with user id"+userId+"does not exist");
+            logger.warn("user with user id {} does not exist", userId);
             return null;
         }
         else {
@@ -97,16 +98,16 @@ public class UserRepositoryImpl implements UserRepository {
     public String updatePassword(int id, String oldPassword, String newPassword) {
         User user = isIdExist(id);
         if (user == null) {
-            logger.warn("User with id "+id+" not found");
-            return "User with id "+id+" not found";
+            logger.warn("User with id {} not found", id);
+            return "User with id " + id +" not found";
         }
         else if (!user.getPassword().equals(oldPassword)) {
             return "invalid password";
         } else {
             String sql = "UPDATE users SET passowrd=? WHERE UserId=?";
             jdbcTemplate.update(sql,newPassword,id);
-            logger.info("User Id "+id+" password succesfully updated");
-            return "User Id "+id+" password succesfully updated";
+            logger.info("User Id {} password succesfully updated", id);
+            return "User Id " + id +" password succesfully updated";
 
         }
     }

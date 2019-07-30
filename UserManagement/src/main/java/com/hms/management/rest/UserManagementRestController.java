@@ -1,6 +1,7 @@
 package com.hms.management.rest;
-import com.hms.management.Error;
+
 import com.hms.management.ApiException;
+import com.hms.management.ExceptionCodeDescription;
 import com.hms.management.User;
 import com.hms.management.dao.UserRepository;
 import org.slf4j.Logger;
@@ -11,6 +12,10 @@ import java.util.List;
 
 @RestController
 public class UserManagementRestController {
+
+    private static final int USERNAME_MAX_LENGHT = 20;
+
+    private static final int USERPASSWORD_MAX_LENGHT = 20;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -30,7 +35,7 @@ public class UserManagementRestController {
 
     @GetMapping(value = "/user")
     public User getUser(@RequestParam(value = "userId", defaultValue = " ") int userId) {
-        logger.info("recieved a get request from user to return a user with userID "+userId);
+        logger.info("recieved a get request from user to return a user with userID {}", userId);
         return userRepository.getUser(userId);
 
     }
@@ -40,15 +45,15 @@ public class UserManagementRestController {
                                      @RequestParam(value = "password", defaultValue = " ")
                                              String password) throws ApiException {
 
-        logger.info("recieved a  request create user to return a user ");
+        logger.info("recieved a  request create user ");
         User user = new User(userName, password);
 
-        if (user.getUsername().trim().isEmpty() || user.getUsername().trim().length() > 20) {
-            logger.info(Error.INVALID_USERNAME.getDescription());
+        if (user.getUsername().trim().isEmpty() || user.getUsername().trim().length() > USERNAME_MAX_LENGHT) {
+            logger.info(ExceptionCodeDescription.INVALID_USERNAME.getDescription());
             throw new ApiException("invalid user name");
-        } else if (user.getPassword().trim().isEmpty() || user.getPassword().length() > 20) {
+        } else if (user.getPassword().trim().isEmpty() || user.getPassword().length() > USERPASSWORD_MAX_LENGHT) {
             logger.info("invalid password and going to throw an exception");
-            throw new ApiException(Error.INVALID_PASSWORD.getDescription());
+            throw new ApiException(ExceptionCodeDescription.INVALID_PASSWORD.getDescription());
         } else {
             return userRepository.create(user);
 
@@ -60,7 +65,7 @@ public class UserManagementRestController {
     public String updatePassword(@RequestParam(value = "userId", defaultValue = " ") int id,
                                  @RequestParam(value = "oldPassword", defaultValue = " ") String oldPassword,
                                  @RequestParam(value = "newPassword", defaultValue = " ") String newPassword) {
-        logger.info("request to change password of userId "+id);
+        logger.info("request to change password of userId {} " , id);
 
         return userRepository.updatePassword(id, oldPassword, newPassword);
 
@@ -68,7 +73,7 @@ public class UserManagementRestController {
 
     @DeleteMapping("/users")
     public User deleteUser(@RequestParam(value = "userId", defaultValue = " ") int id) {
-        logger.info("request to change password from userId "+id);
+        logger.info("request to change password from userId {}", id);
         return userRepository.deleteUser(id);
 
     }
