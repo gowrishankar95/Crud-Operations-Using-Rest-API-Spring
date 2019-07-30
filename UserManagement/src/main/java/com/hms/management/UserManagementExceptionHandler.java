@@ -10,8 +10,6 @@ import java.util.Map;
 
 @ControllerAdvice
 public class ExceptionHandlerClass {
-
-
     @ResponseBody
     @ExceptionHandler(value = Exception.class)
     public Map<String, String> exception(Exception e) {
@@ -21,9 +19,5 @@ public class ExceptionHandlerClass {
         return map;
 
     }
-
-
-
-
 }
 
