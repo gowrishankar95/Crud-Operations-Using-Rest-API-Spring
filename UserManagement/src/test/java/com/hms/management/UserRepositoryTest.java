@@ -2,20 +2,25 @@ package com.hms.management;
 
 
 import com.hms.management.dao.UserRepository;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
-@SpringBootTest()
+@SpringBootTest
 @RunWith(SpringRunner.class)
+@Transactional
 public class UserRepositoryTest {
 
     @Autowired
@@ -23,6 +28,40 @@ public class UserRepositoryTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+//    @Test
+//    public  synchronized void viewAllUsersTest(){
+//
+//        User user1 = new User("gowri","19");
+//        User user2 = new User("gowr","189");
+//        User user3 = new User("gow","1289");
+//        User user4 = new User("gw","1278");
+//        User user5 = new User("goi","19");
+//        System.out.println("hello");
+//
+//        List<User> list = new ArrayList<>();
+//        list.add(userRepository.create(user1));
+//        list.add(userRepository.create(user2));
+//        list.add(userRepository.create(user3));
+//        list.add(userRepository.create(user4));
+//        list.add(userRepository.create(user5));
+//
+//        HashMap<Integer,User> usersHashSet = new HashSet<Integer,User>();
+//
+//       List<User> usersListFromDatabase = userRepository.viewAllUsers();
+//
+//        for (int i = 0; i < usersHashSet.size(); i++){
+//            usersHashSet.add(usersListFromDatabase.get(i));
+//
+//        }
+//        for(int i = 0; i < list.size(); i++){
+//            System.out.println(list.get(i).getUsername()+" "+list.get(i).getPassword()+" "+
+//                    list.get(i).getUserId());
+//            Assert.assertTrue(usersHashSet.contains(list.get(i)));
+//        }
+//
+//
+//    }
 
     @Test
     public synchronized void checkValidUserInsertion(){
