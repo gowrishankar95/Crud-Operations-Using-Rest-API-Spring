@@ -1,8 +1,8 @@
 package com.hms.management.rest;
 
-import com.hms.management.ApiException;
-import com.hms.management.ExceptionCodeDescription;
-import com.hms.management.User;
+import com.hms.management.exception.ApiException;
+import com.hms.management.enums.ExceptionCodeDescription;
+import com.hms.management.user.User;
 import com.hms.management.dao.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,6 +68,7 @@ public class UserManagementRestController {
         logger.info("request to change password of userId {} " , id);
 
         return userRepository.updatePassword(id, oldPassword, newPassword);
+
 
     }
 

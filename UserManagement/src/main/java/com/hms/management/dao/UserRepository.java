@@ -1,6 +1,6 @@
 package com.hms.management.dao;
 
-import com.hms.management.User;
+import com.hms.management.user.User;
 
 import java.util.List;
 

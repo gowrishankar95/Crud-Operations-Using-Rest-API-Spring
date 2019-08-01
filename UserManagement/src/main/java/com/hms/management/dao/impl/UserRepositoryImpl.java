@@ -1,8 +1,8 @@
 package com.hms.management.dao.impl;
 
-import com.hms.management.ExceptionCodeDescription;
-import com.hms.management.User;
-import com.hms.management.UserMapper;
+import com.hms.management.enums.ExceptionCodeDescription;
+import com.hms.management.user.User;
+import com.hms.management.user.UserMapper;
 import com.hms.management.dao.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
